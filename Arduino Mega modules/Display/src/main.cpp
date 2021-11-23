@@ -1,20 +1,10 @@
 #include <Arduino.h>
-#include <TFT.h>
-
-#define cs   10
-#define dc   9
-#define rst  8
-
-TFT TFTscreen = TFT(cs, dc, rst);
+#include <ili9488.h>
 
 void setup() 
 {
-  TFTscreen.begin();
-  TFTscreen.background(0, 0, 0);
-  TFTscreen.stroke(255,255,255);
-  TFTscreen.setTextSize(2);
-  TFTscreen.text("Test", 0, 0);
-  TFTscreen.setTextSize(5);
+  lcd.Init_LCD();
+  lcd.Fill_Screen(BLACK);
 
   Serial.begin(9600);
   Serial.print("test");
@@ -22,5 +12,9 @@ void setup()
 
 void loop() 
 {
-  
+  lcd.Set_Text_Mode(0);
+  //display 1 times string
+  lcd.Fill_Screen(0x0000);
+  lcd.Set_Text_colour(RED);
+  lcd.Set_Text_Back_colour(BLACK); 
 }
