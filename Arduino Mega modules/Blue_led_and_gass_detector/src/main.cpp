@@ -59,11 +59,11 @@ void loop()
 { 
   int relayGasData = digitalRead(RELAY_GAS);
 
-  while (radio.available())
-  {
-    ack = radio.readString();
-    Serial.println(ack);
-  }
+  // while (radio.available())
+  // {
+  //   ack = radio.readString();
+  //   Serial.println(ack);
+  // }
 
   if (relayGasData == 0)
   {
@@ -78,9 +78,19 @@ void loop()
     digitalWrite(INFRA_RED_OUT, 0);
 
     turn_right(stepMotor);
+    Serial.write("ok");
 
     radio.println("Hello, World!");
   }
 
   // Serial.println(relayGasData);
+}
+
+void yield()
+{
+  if (Serial.available())
+  {
+    byte a = Serial.read();
+    Serial.println(a);
+  }
 }

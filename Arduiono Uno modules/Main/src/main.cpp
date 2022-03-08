@@ -50,7 +50,6 @@ void loop()
 {
   if (1 == 1)
   {
-    Serial.println("HELLO");
     if (!is_draw_alerm)
     {
       printTFT("Gas: off", VGA_YELLOW, CENTER, 50);
@@ -93,5 +92,14 @@ void loop()
     digitalWrite(red_led, 0);
 
         is_draw_alerm = false;
+  }
+}
+
+void yield()
+{
+  if (Serial.available())
+  {
+    byte a = Serial.read();
+    Serial.println(a);
   }
 }
