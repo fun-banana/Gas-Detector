@@ -15,20 +15,20 @@ class StepMotor
         Stepper _stepMotor;
 
     public:
-        StepMotor(byte IN1, byte IN2, byte IN3, byte IN4)
-        {
-            // Constructor //
+        // StepMotor(byte IN1, byte IN2, byte IN3, byte IN4)
+        // {
+        //     // Constructor //
 
-            _IN1 = IN1;
-            _IN2 = IN2;
-            _IN3 = IN3;
-            _IN4 = IN4;
+        //     _IN1 = IN1;
+        //     _IN2 = IN2;
+        //     _IN3 = IN3;
+        //     _IN4 = IN4;
 
-            Stepper temp(_stepPerRevolution, _IN1, _IN2, _IN3, _IN4);
+        //     Stepper temp(_stepPerRevolution, _IN1, _IN2, _IN3, _IN4);
 
-            _stepMotor = temp;
-            _stepMotor.setSpeed(_stepSpeed);
-        }
+        //     _stepMotor = temp;
+        //     _stepMotor.setSpeed(_stepSpeed);
+        // }
 
         void TurnOff()
         {
