@@ -22,7 +22,6 @@ bool is_draw_ok = false;
 
 void printTFT(String text, word color, int x, int y)
 {
-  // myGLCD.clrScr();
   myGLCD.drawLine(10, 10, 310, 10);
   myGLCD.drawLine(10, 230, 310, 230);
   myGLCD.setColor(color);
@@ -42,7 +41,7 @@ void setup()
   myGLCD.setFont(BigFont);
   printTFT("Status: HELLO", VGA_YELLOW, CENTER, 50);
 
-  radio.begin(2400);
+  radio.begin(9600);
   Serial.begin(9600);
 }
 
@@ -58,7 +57,8 @@ void loop()
     printTFT("ALARM", VGA_RED, CENTER, 100);
     digitalWrite(blue_led, 0);
 
-    if (millis() - myTimer1 >= 25) {   
+    if (millis() - myTimer1 >= 25) 
+    {   
       myTimer1 = millis();
 
       digitalWrite(green_led, curent_state);
@@ -71,7 +71,6 @@ void loop()
       {
         digitalWrite(red_led, 0);
       }
-
 
       if (curent_state == 0) {curent_state = 1;}
       else {curent_state = 0;}
@@ -91,7 +90,7 @@ void loop()
     digitalWrite(green_led, 1);
     digitalWrite(red_led, 0);
 
-        is_draw_alerm = false;
+    is_draw_alerm = false;
   }
 }
 

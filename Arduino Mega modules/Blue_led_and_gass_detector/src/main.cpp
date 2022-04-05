@@ -21,6 +21,7 @@ const int stepSpeed = 60;
 Stepper stepMotor(stepPerRevolution, step_IN1, step_IN2, step_IN3, step_IN4);
 String ack = "";
 SoftwareSerial radio(radio_rx, radio_tx);
+char inputData = '0';
 
 void turn_off(Stepper motor)
 {
@@ -51,13 +52,27 @@ void setup()
   stepMotor.setSpeed(stepSpeed);
   turn_left(stepMotor);
 
-  Serial.begin(9600); // open serial port
+  Serial.begin(38400);
+  Serial1.begin(38400); // open serial port
   radio.begin(2400); // open radio port
 }
 
 void loop() 
 { 
   int relayGasData = digitalRead(RELAY_GAS);
+
+  if ( Serial1.available() )   {  Serial.write( Serial1.read() );  }
+
+  while (Serial1.available() > 0)
+  {
+    inputData = Serial1.read();
+    if (inputData != '0')
+    {
+      Serial.println(inputData);
+      inputData = '0';
+    }
+  }
+  
 
   // while (radio.available())
   // {
@@ -84,13 +99,4 @@ void loop()
   }
 
   // Serial.println(relayGasData);
-}
-
-void yield()
-{
-  if (Serial.available())
-  {
-    byte a = Serial.read();
-    Serial.println(a);
-  }
 }
