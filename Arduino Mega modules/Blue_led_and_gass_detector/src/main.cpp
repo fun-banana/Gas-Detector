@@ -1,17 +1,16 @@
 #include <Arduino.h>
 #include <Stepper.h>
 #include <SoftwareSerial.h>
+#include <Logger.h>
 
 // PORTS
-const int INFRA_RED_OUT = 8; 
-const int BLUE_LED = 9;
-const int RELAY_GAS = 10;
-const int step_IN1 = 62; // A8
-const int step_IN2 = 63; // A9
-const int step_IN3 = 64; // A10
-const int step_IN4 = 65; // A11
-const int radio_rx = 10; // D16
-const int radio_tx = 11; // D17
+#define INFRA_RED_OUT 8 // D8
+#define BLUE_LED 9 // D9
+#define RELAY_GAS 10 // D10
+#define step_IN1 62 // A8
+#define step_IN2 63 // A9
+#define step_IN3 64 // A10
+#define step_IN4 65 // A11
 
 // CONSTANTS
 const int stepPerRevolution = 200;
@@ -19,9 +18,14 @@ const int stepSpeed = 60;
 
 // VARS
 Stepper stepMotor(stepPerRevolution, step_IN1, step_IN2, step_IN3, step_IN4);
+<<<<<<< Updated upstream
 String ack = "";
 SoftwareSerial radio(radio_rx, radio_tx);
 char inputData = '0';
+=======
+Logger Log;
+int data;
+>>>>>>> Stashed changes
 
 void turn_off(Stepper motor)
 {
@@ -34,13 +38,13 @@ void turn_off(Stepper motor)
 void turn_right(Stepper motor)
 {
   motor.step(stepPerRevolution);
-  Serial.println("Turn right\n");
+  Log.Log("Turn right", INFO);
 }
 
 void turn_left(Stepper motor)
 {
   motor.step(-stepPerRevolution);
-  Serial.println("Turn left\n");
+  Log.Log("Turn left", INFO);
 }
 
 void setup() 
@@ -52,15 +56,22 @@ void setup()
   stepMotor.setSpeed(stepSpeed);
   turn_left(stepMotor);
 
+<<<<<<< Updated upstream
   Serial.begin(38400);
   Serial1.begin(38400); // open serial port
   radio.begin(2400); // open radio port
+=======
+  Serial.begin(9600); // open serial port
+  Serial2.begin(9600); // open serial radio port
+  Serial3.begin(9600); // open serial bluetooth port
+>>>>>>> Stashed changes
 }
 
 void loop() 
 { 
   int relayGasData = digitalRead(RELAY_GAS);
 
+<<<<<<< Updated upstream
   if ( Serial1.available() )   {  Serial.write( Serial1.read() );  }
 
   while (Serial1.available() > 0)
@@ -79,6 +90,17 @@ void loop()
   //   ack = radio.readString();
   //   Serial.println(ack);
   // }
+=======
+  while (Serial3.available() > 0)
+  {
+    Log.Log(Serial3.readString());
+  }
+
+  if (data != 0)
+  {
+    Serial.println(data);
+  }
+>>>>>>> Stashed changes
 
   if (relayGasData == 0)
   {
@@ -93,10 +115,15 @@ void loop()
     digitalWrite(INFRA_RED_OUT, 0);
 
     turn_right(stepMotor);
-    Serial.write("ok");
 
+<<<<<<< Updated upstream
     radio.println("Hello, World!");
   }
 
   // Serial.println(relayGasData);
+=======
+    Serial3.write("WARNING");
+    Serial2.write("WARNING");
+  }
+>>>>>>> Stashed changes
 }
