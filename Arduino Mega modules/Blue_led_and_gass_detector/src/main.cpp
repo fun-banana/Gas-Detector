@@ -36,8 +36,9 @@ void setup()
 
 void loop() 
 { 
-  int relayGasData = digitalRead(RELAY_GAS);
   steper.Update();
+
+  int relayGasData = digitalRead(RELAY_GAS);
 
   if (relayGasData == 0)
   {

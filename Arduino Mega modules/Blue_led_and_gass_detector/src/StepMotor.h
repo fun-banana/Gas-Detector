@@ -12,9 +12,10 @@ class StepMotor
         bool _isTurningLeft;
 
         int _counterSteps;
+        int _maxSteps;
 
     public:
-        StepMotor(byte in1, byte in2, byte in3, byte in4)
+        StepMotor(byte in1, byte in2, byte in3, byte in4, int maxSteps = 1024)
         {
             // Constructor //
 
@@ -22,6 +23,7 @@ class StepMotor
             _in2 = in2;
             _in3 = in3;
             _in4 = in4;
+            _maxSteps = maxSteps;
             _isTurningRight = false;
             _isTurningLeft = false;
             _counterSteps = 0;
@@ -30,9 +32,10 @@ class StepMotor
         void Update()
         {
             // Call this method every tick // 
+            // Make single turn acording to flags //
             if (_isTurningRight)
             {
-                if (_counterSteps < 1024)
+                if (_counterSteps < _maxSteps)
                 {
                     TurnRight();
                     _counterSteps++;
@@ -41,7 +44,6 @@ class StepMotor
                 {
                     TurnOff();
                     _isTurningRight = false;
-                    Serial.println("End turning right");
                 }
             }
             else if (_isTurningLeft)
@@ -55,19 +57,20 @@ class StepMotor
                 {
                     TurnOff();
                     _isTurningLeft = false;
-                    Serial.println("End turning left");
                 }
             }
         }
 
         void StartOpening()
         {
+            // set flags to open //
             _isTurningRight = true;
             _isTurningLeft = false;
         }
 
         void StartClosing()
         {
+            // set flags to close //
             _isTurningRight = false;
             _isTurningLeft = true;
         }
