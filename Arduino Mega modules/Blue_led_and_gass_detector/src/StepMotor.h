@@ -27,6 +27,7 @@ class StepMotor
             _isTurningRight = false;
             _isTurningLeft = false;
             _counterSteps = 0;
+            SetPinMode();
         }
 
         void Update()
@@ -131,5 +132,13 @@ class StepMotor
             digitalWrite(_in2, in2);
             digitalWrite(_in3, in3);
             digitalWrite(_in4, in4);
+        }
+
+        void SetPinMode()
+        {
+            pinMode(_in1, OUTPUT);
+            pinMode(_in2, OUTPUT);
+            pinMode(_in3, OUTPUT);
+            pinMode(_in4, OUTPUT);
         }
 };

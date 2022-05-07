@@ -1,6 +1,4 @@
 #include <Arduino.h>
-#include <Stepper.h>
-#include <SoftwareSerial.h>
 #include <Logger.h>
 #include <StepMotor.h>
 
@@ -12,10 +10,6 @@
 #define step_IN2 63 // A9
 #define step_IN3 64 // A10
 #define step_IN4 65 // A11
-
-// CONSTANTS
-const int stepPerRevolution = 200;
-const int stepSpeed = 60;
 
 // VARS
 StepMotor steper(step_IN1, step_IN2, step_IN3, step_IN4);
