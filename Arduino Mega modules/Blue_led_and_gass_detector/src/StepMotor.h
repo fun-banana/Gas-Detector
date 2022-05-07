@@ -1,50 +1,132 @@
 #include <Arduino.h>
-#include <Stepper.h>
 
 class StepMotor
 {
     private:
-        byte _IN1;
-        byte _IN2;
-        byte _IN3;
-        byte _IN4;
+        byte _in1;
+        byte _in2;
+        byte _in3;
+        byte _in4;
 
-        int _stepPerRevolution = 200;
-        int _stepSpeed = 60;
+        bool _isTurningRight;
+        bool _isTurningLeft;
 
-        Stepper _stepMotor;
+        int _counterSteps;
 
     public:
-        // StepMotor(byte IN1, byte IN2, byte IN3, byte IN4)
-        // {
-        //     // Constructor //
+        StepMotor(byte in1, byte in2, byte in3, byte in4)
+        {
+            // Constructor //
 
-        //     _IN1 = IN1;
-        //     _IN2 = IN2;
-        //     _IN3 = IN3;
-        //     _IN4 = IN4;
+            _in1 = in1;
+            _in2 = in2;
+            _in3 = in3;
+            _in4 = in4;
+            _isTurningRight = false;
+            _isTurningLeft = false;
+            _counterSteps = 0;
+        }
 
-        //     Stepper temp(_stepPerRevolution, _IN1, _IN2, _IN3, _IN4);
+        void Update()
+        {
+            // Call this method every tick // 
+            if (_isTurningRight)
+            {
+                if (_counterSteps < 1024)
+                {
+                    TurnRight();
+                    _counterSteps++;
+                }
+                else
+                {
+                    TurnOff();
+                    _isTurningRight = false;
+                    Serial.println("End turning right");
+                }
+            }
+            else if (_isTurningLeft)
+            {
+                if (_counterSteps > 0)
+                {
+                    TurnLeft();
+                    _counterSteps--;
+                }
+                else
+                {
+                    TurnOff();
+                    _isTurningLeft = false;
+                    Serial.println("End turning left");
+                }
+            }
+        }
 
-        //     _stepMotor = temp;
-        //     _stepMotor.setSpeed(_stepSpeed);
-        // }
+        void StartOpening()
+        {
+            _isTurningRight = true;
+            _isTurningLeft = false;
+        }
+
+        void StartClosing()
+        {
+            _isTurningRight = false;
+            _isTurningLeft = true;
+        }
+
+    private:
+        void TurnRight()
+        {
+            // Turn motor right (clockwise) //
+            SetAllPins(0,0,0,1);
+            delay(1);
+            SetAllPins(0,0,1,1);
+            delay(1);
+            SetAllPins(0,0,1,0);
+            delay(1);
+            SetAllPins(0,1,1,0);
+            delay(1);
+            SetAllPins(0,1,0,0);
+            delay(1);
+            SetAllPins(1,1,0,0);
+            delay(1);
+            SetAllPins(1,0,0,0);
+            delay(1);
+            SetAllPins(1,0,0,1);
+            delay(1);
+        }
+
+        void TurnLeft()
+        {
+            // Turn motor left (no clockwise) //
+            SetAllPins(1,0,0,1);
+            delay(1);
+            SetAllPins(1,0,0,0);
+            delay(1);
+            SetAllPins(1,1,0,0);
+            delay(1);
+            SetAllPins(0,1,0,0);
+            delay(1);
+            SetAllPins(0,1,1,0);
+            delay(1);
+            SetAllPins(0,0,1,0);
+            delay(1);
+            SetAllPins(0,0,1,1);
+            delay(1);
+            SetAllPins(0,0,0,1);
+            delay(1);
+        }
 
         void TurnOff()
         {
             // Turn off driver //
-
-            digitalWrite(_IN1, 0);
-            digitalWrite(_IN2, 0);
-            digitalWrite(_IN3, 0);
-            digitalWrite(_IN4, 0);
+            SetAllPins(0,0,0,0);
         }
 
-        void TurnRight()
+        void SetAllPins(byte in1, byte in2, byte in3, byte in4)
         {
-            // Turn motor right (clockwise) //
-
-            _stepMotor.step(_stepPerRevolution);
-            Serial.println("Turn right\n");
+            // Set all pins from in1 to in4 // 
+            digitalWrite(_in1, in1);
+            digitalWrite(_in2, in2);
+            digitalWrite(_in3, in3);
+            digitalWrite(_in4, in4);
         }
 };

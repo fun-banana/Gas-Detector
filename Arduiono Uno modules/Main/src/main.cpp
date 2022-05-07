@@ -1,16 +1,12 @@
 #include <Arduino.h>
-#include <SoftwareSerial.h>
 #include <UTFT.h>
 
 // ports
-const int radio_rx = 1;
-const int radio_tx = 1;
 const int red_led = 16; 
 const int green_led = 15;
 const int blue_led = 14;
 
 // vars
-SoftwareSerial radio(radio_rx, radio_tx);
 UTFT myGLCD(ILI9341_S5P,11,13,10,8,9);
 extern uint8_t BigFont[];
 
@@ -41,12 +37,17 @@ void setup()
   myGLCD.setFont(BigFont);
   printTFT("Status: HELLO", VGA_YELLOW, CENTER, 50);
 
-  radio.begin(9600);
   Serial.begin(9600);
+  Serial.println("Starting poling");
 }
 
 void loop() 
 {
+  if (Serial.available() > 0)
+  {
+    Serial.println(Serial.read());
+  }
+  
   if (1 == 1)
   {
     if (!is_draw_alerm)
@@ -91,14 +92,5 @@ void loop()
     digitalWrite(red_led, 0);
 
     is_draw_alerm = false;
-  }
-}
-
-void yield()
-{
-  if (Serial.available())
-  {
-    byte a = Serial.read();
-    Serial.println(a);
   }
 }
