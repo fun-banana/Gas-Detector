@@ -43,12 +43,15 @@ void setup()
 
 void loop() 
 {
+  String data;
+
   if (Serial.available() > 0)
   {
-    Serial.println(Serial.read());
+    data = Serial.readString();
+    Serial.println(data);
   }
-  
-  if (1 == 1)
+
+  if (data.compareTo("Warning\n") == 0)
   {
     if (!is_draw_alerm)
     {
@@ -79,7 +82,7 @@ void loop()
 
     is_draw_ok = false;
   }
-  else 
+  else if (data.compareTo("Ok\n") == 0)
   {
     if (!is_draw_ok)
     {
