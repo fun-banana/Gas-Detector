@@ -18,7 +18,6 @@ class StepMotor
         StepMotor(byte in1, byte in2, byte in3, byte in4, int maxSteps = 1024)
         {
             // Constructor //
-
             _in1 = in1;
             _in2 = in2;
             _in3 = in3;

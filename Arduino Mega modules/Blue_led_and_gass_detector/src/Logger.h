@@ -8,6 +8,11 @@ class Logger
         #define WARNING "WARNING"
         #define ERROR   "ERROR"
 
+    Logger()
+    {
+        Serial1.begin(9600);
+    }
+
     void Log(String text, String logLevel = DEBUG)
     {
         if (!isLogLevel(logLevel))
